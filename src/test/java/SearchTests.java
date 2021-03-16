@@ -10,9 +10,7 @@ public class SearchTests {
     @Test
     void selenideSearchTest() {
         open("https://www.google.com/");
-
         $(byName("q")).setValue("Selenide").pressEnter();
-
         $("#search").shouldHave(text("selenide.org"));
     }
 }
