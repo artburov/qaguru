@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeFormTests {
@@ -23,11 +24,14 @@ public class PracticeFormTests {
         String userEmail = "ivanov@test.com";
         String userPhone = "1234567890";
         String userBirthday = "01 May,1980";
-        String userSubjects = "Computer Science, Physics";
-        String userHobbies = "Sports, Music";
+        String subjectCScience = "Computer Science";
+        String subjectPhysics = "Physics";
+        String userHobbyOne = "Sports";
+        String userHobbyTwo = "Music";
         String userImg = "robot.png";
         String filePath = "src/test/java/resources/robot.png";
-        String stateCity = "Haryana Panipat";
+        String userState = "Haryana";
+        String userCity = "Panipat";
         String userAddress = "USA, New York, 123 Piccadilly street, apt.77";
         String modalTitleText = "Thanks for submitting the form";
 
@@ -48,17 +52,17 @@ public class PracticeFormTests {
         $("div[aria-label='Choose Thursday, May 1st, 1980']").click();
         $("#subjectsInput").click();
         $("#subjectsInput").setValue("c");
-        $x("//div[@id='subjectsContainer']//div[contains(text(),'Computer Science')]").click();
+        $(byText(subjectCScience)).click();
         $("#subjectsInput").setValue("p");
-        $x("//div[@id='subjectsContainer']//div[contains(text(),'Physics')]").click();
+        $(byText(subjectPhysics)).click();
         $("label[for='hobbies-checkbox-1']").click();
         $("label[for='hobbies-checkbox-3']").click();
         $("#uploadPicture").uploadFile(new File(filePath));
         $("#currentAddress").setValue("USA, New York, 123 Piccadilly street, apt.77");
         $("#state").click();
-        $x("//div[@id='state']//div[contains(text(),'Haryana')]").click();
+        $(byText(userState)).click();
         $("#city").click();
-        $x("//div[@id='city']//div[contains(text(),'Panipat')]").click();
+        $(byText(userCity)).click();
         $("#submit").click();
 
         //Verify data from modal
@@ -68,11 +72,11 @@ public class PracticeFormTests {
         $("tbody tr:nth-child(3)").shouldHave(text(userSex));
         $("tbody tr:nth-child(4)").shouldHave(text(userPhone));
         $("tbody tr:nth-child(5)").shouldHave(text(userBirthday));
-        $("tbody tr:nth-child(6)").shouldHave(text(userSubjects));
-        $("tbody tr:nth-child(7)").shouldHave(text(userHobbies));
+        $("tbody tr:nth-child(6)").shouldHave(text(subjectCScience + ", " + subjectPhysics));
+        $("tbody tr:nth-child(7)").shouldHave(text(userHobbyOne + ", " + userHobbyTwo));
         $("tbody tr:nth-child(8)").shouldHave(text(userImg));
         $("tbody tr:nth-child(9)").shouldHave(text(userAddress));
-        $("tbody tr:nth-child(10)").shouldHave(text(stateCity));
+        $("tbody tr:nth-child(10)").shouldHave(text(userState + " " + userCity));
         sleep(1000);
     }
 }
