@@ -2,8 +2,6 @@ import com.codeborne.selenide.Configuration;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.io.File;
-
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
@@ -29,7 +27,6 @@ public class PracticeFormTests {
         String userHobbyOne = "Sports";
         String userHobbyTwo = "Music";
         String userImg = "robot.png";
-        String filePath = "src/test/java/resources/robot.png";
         String userState = "Haryana";
         String userCity = "Panipat";
         String userAddress = "USA, New York, 123 Piccadilly street, apt.77";
@@ -42,22 +39,20 @@ public class PracticeFormTests {
         $("#firstName").setValue(userName);
         $("#lastName").setValue(userSurname);
         $("#userEmail").setValue(userEmail);
-        $("label[for='gender-radio-1']").click();
+        $(byText(userSex)).click();
         $("#userNumber").setValue(userPhone);
         $("#dateOfBirthInput").click();
-        $("select[class='react-datepicker__month-select']").click();
-        $("option[value='4']").click();
-        $("select[class='react-datepicker__year-select']").click();
-        $("option[value='1980']").click();
-        $("div[aria-label='Choose Thursday, May 1st, 1980']").click();
+        $(".react-datepicker__month-select").selectOptionByValue("4");
+        $(".react-datepicker__year-select").selectOptionByValue("1980");
+        $(byText("1")).click();
         $("#subjectsInput").click();
         $("#subjectsInput").setValue("c");
         $(byText(subjectCScience)).click();
         $("#subjectsInput").setValue("p");
         $(byText(subjectPhysics)).click();
-        $("label[for='hobbies-checkbox-1']").click();
-        $("label[for='hobbies-checkbox-3']").click();
-        $("#uploadPicture").uploadFile(new File(filePath));
+        $(byText(userHobbyOne)).click();
+        $(byText(userHobbyTwo)).click();
+        $("#uploadPicture").uploadFromClasspath("robot.png");
         $("#currentAddress").setValue("USA, New York, 123 Piccadilly street, apt.77");
         $("#state").click();
         $(byText(userState)).click();
@@ -77,6 +72,5 @@ public class PracticeFormTests {
         $("tbody tr:nth-child(8)").shouldHave(text(userImg));
         $("tbody tr:nth-child(9)").shouldHave(text(userAddress));
         $("tbody tr:nth-child(10)").shouldHave(text(userState + " " + userCity));
-        sleep(1000);
     }
 }
